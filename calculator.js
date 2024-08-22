@@ -18,28 +18,68 @@ const division = function divide(num1 , num2)
 	return num1 / num2;
 }
 
-let numberOne;
-let operator;
-let numberTwo;
-
 const operate = function calc(num1 , num2 , operato)
 {
 	switch (operato)
 	{
 		case '+':
-		addition([num1,num2]);
+		return addition([num1,num2]);
 		break;
 
 		case '-':
-		subtraction(num1,num2);
+		return subtraction(num1,num2);
 		break;
 
 		case '*':
-		multiplication([num1,num2]);
+		return multiplication([num1,num2]);
 		break;
 
 		case '/':
-		division(num1,num2);
+		return division(num1,num2);
 		break;
 	}
 }
+
+
+const populate = function populate()
+{
+	const inputField = document.getElementById('inputs');
+	inputField.focus();
+
+	let buttonButton = document.querySelectorAll('button');
+	buttonButton.forEach(element => {
+		element.addEventListener('click' , () => {
+			inputField.value += element.textContent;
+		})
+	});
+}
+
+const Operation = function operateInput()
+{
+	const values = document.getElementById('inputs');
+	const equals = document.getElementById('equal');
+
+	equals.addEventListener('click', () => {
+		let input = values.value;
+
+		if(input.includes("="))
+		{
+			input = input.replace("=" , "");
+		}
+
+		const operator = input.match(/[+\-*/]/);
+		console.log(operator);
+
+		const [num1 , num2] = input.split(operator).map(Number);
+		console.log(`${num1} , ${num2}`);
+		
+		const answer = operate(num1 , num2 , operator[0]);
+
+		const answerField = document.getElementById('answer');
+		answerField.textContent = answer;
+		values.value = "";
+	});
+}
+
+populate();
+Operation();
